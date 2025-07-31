@@ -6,11 +6,14 @@ export const generateQuestions = async (
   level: string
 ): Promise<Question[]> => {
   try {
-    const res = await fetch("http://localhost:5000/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ subject, level }),
-    });
+    const res = await fetch(
+      "https://shipsy-backend.onrender.com/api/generate",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject, level }),
+      }
+    );
 
     if (!res.ok) throw new Error("API call failed");
 
