@@ -11,64 +11,64 @@ import {
   Landmark,
   Code,
   FlaskConical,
+  LucideIcon,
 } from "lucide-react";
 
-const subjects = [
+type Subject = {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+  description: string;
+};
+
+const subjects: Subject[] = [
   {
     id: "biology",
     name: "Biology",
     icon: BookOpen,
     description: "Life sciences and living organisms",
-    color: "from-green-400 to-emerald-600",
   },
   {
     id: "mathematics",
     name: "Mathematics",
     icon: Calculator,
     description: "Numbers, equations, and problem solving",
-    color: "from-blue-400 to-indigo-600",
   },
   {
     id: "general-knowledge",
     name: "General Knowledge",
     icon: Globe,
     description: "World facts and current affairs",
-    color: "from-purple-400 to-pink-600",
   },
   {
     id: "physics",
     name: "Physics",
     icon: Atom,
     description: "The laws that govern matter and energy",
-    color: "from-yellow-400 to-red-500",
   },
   {
     id: "computer-science",
     name: "Computer Science",
     icon: Code,
     description: "Technology, programming, and computing",
-    color: "from-gray-400 to-blue-500",
   },
   {
     id: "history",
     name: "History",
     icon: Landmark,
     description: "Past events and civilizations",
-    color: "from-amber-500 to-orange-600",
   },
   {
     id: "psychology",
     name: "Psychology",
     icon: Brain,
     description: "Human mind and behavior",
-    color: "from-pink-400 to-rose-600",
   },
   {
     id: "chemistry",
     name: "Chemistry",
     icon: FlaskConical,
     description: "Substances, reactions, and compounds",
-    color: "from-cyan-400 to-blue-600",
   },
 ];
 
@@ -82,79 +82,71 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-cyan-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-neutral-950 text-white flex items-center justify-center p-6">
       <motion.div
-        className="max-w-4xl w-full"
-        initial={{ opacity: 0, y: 20 }}
+        className="max-w-5xl w-full"
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
+        {/* Header */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-100">
             Quiz
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300 to-white ml-2">
               Master
             </span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg max-w-xl mx-auto">
             Test your knowledge with AI-generated questions tailored to your
-            expertise level
+            expertise.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {subjects.map((subject, index) => {
-            const IconComponent = subject.icon;
+            const Icon = subject.icon;
             return (
-              <motion.div
+              <motion.button
                 key={subject.id}
-                className={`bg-gradient-to-br ${subject.color} rounded-2xl p-6 text-white cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
+                onClick={() => handleSubjectSelect(subject.id)}
+                className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 text-left"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                onClick={() => handleSubjectSelect(subject.id)}
-                whileHover={{ y: -5 }}
-                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <div className="flex flex-col items-center text-center space-y-4">
-                  <motion.div
-                    className="p-4 bg-white bg-opacity-20 rounded-full"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <IconComponent size={48} />
-                  </motion.div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">{subject.name}</h3>
-                    <p className="text-white text-opacity-90">
-                      {subject.description}
-                    </p>
+                <div className="flex flex-col items-start space-y-4">
+                  <div className="p-3 bg-neutral-800 rounded-full">
+                    <Icon size={28} className="text-gray-200" />
                   </div>
-                  <motion.div
-                    className="mt-4 px-6 py-2 bg-white bg-opacity-20 rounded-full text-sm font-semibold"
-                    whileHover={{ bg: "rgba(255,255,255,0.3)" }}
-                  >
+                  <h3 className="text-lg font-semibold text-white">
+                    {subject.name}
+                  </h3>
+                  <p className="text-sm text-gray-400">{subject.description}</p>
+                  <span className="text-sm text-gray-500 underline mt-2">
                     Start Quiz
-                  </motion.div>
+                  </span>
                 </div>
-              </motion.div>
+              </motion.button>
             );
           })}
         </div>
 
+        {/* Footer */}
         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 1 }}
         >
           <p className="text-gray-500 text-sm">
-            Powered by AI • Adaptive Learning • Real-time Results
+            Powered by AI • Minimal UI • Real-time Scoring
           </p>
         </motion.div>
       </motion.div>

@@ -1,33 +1,38 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { useQuiz } from '../context/QuizContext';
-import { Zap, Target, Trophy } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { useQuiz } from "../context/QuizContext";
+import { Zap, Target, Trophy, LucideIcon } from "lucide-react";
 
-const levels = [
+type Level = {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+  description: string;
+  difficulty: string;
+};
+
+const levels: Level[] = [
   {
-    id: 'beginner',
-    name: 'Beginner',
+    id: "beginner",
+    name: "Beginner",
     icon: Zap,
-    description: 'New to the subject',
-    color: 'from-green-400 to-emerald-600',
-    difficulty: 'Easy questions to build confidence',
+    description: "New to the subject",
+    difficulty: "Easy questions to build confidence",
   },
   {
-    id: 'intermediate',
-    name: 'Intermediate',
+    id: "intermediate",
+    name: "Intermediate",
     icon: Target,
-    description: 'Some experience',
-    color: 'from-yellow-400 to-orange-600',
-    difficulty: 'Moderate challenge level',
+    description: "Some experience",
+    difficulty: "Moderate challenge level",
   },
   {
-    id: 'expert',
-    name: 'Expert',
+    id: "expert",
+    name: "Expert",
     icon: Trophy,
-    description: 'Advanced knowledge',
-    color: 'from-red-400 to-pink-600',
-    difficulty: 'Complex questions for experts',
+    description: "Advanced knowledge",
+    difficulty: "Complex questions for experts",
   },
 ];
 
@@ -37,79 +42,76 @@ const LevelPage: React.FC = () => {
 
   const handleLevelSelect = (levelId: string) => {
     setLevel(levelId);
-    navigate('/quiz');
+    navigate("/quiz");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-neutral-950 text-white flex items-center justify-center p-6">
       <motion.div
         className="max-w-4xl w-full"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
+        {/* Header */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-100">
             Choose Your Level
           </h1>
-          <p className="text-lg text-gray-600 capitalize">
-            Selected Subject: <span className="font-semibold text-purple-600">{state.subject.replace('-', ' ')}</span>
+          <p className="text-gray-400 text-lg">
+            Selected Subject:{" "}
+            <span className="font-semibold text-white">
+              {state.subject.replace("-", " ")}
+            </span>
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Level Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {levels.map((level, index) => {
-            const IconComponent = level.icon;
+            const Icon = level.icon;
             return (
-              <motion.div
+              <motion.button
                 key={level.id}
-                className={`bg-gradient-to-br ${level.color} rounded-2xl p-6 text-white cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
+                onClick={() => handleLevelSelect(level.id)}
+                className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-xl p-6 text-left shadow-md hover:shadow-lg transition transform hover:-translate-y-1"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                onClick={() => handleLevelSelect(level.id)}
-                whileHover={{ y: -5 }}
-                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <div className="flex flex-col items-center text-center space-y-4">
-                  <motion.div
-                    className="p-4 bg-white bg-opacity-20 rounded-full"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <IconComponent size={48} />
-                  </motion.div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">{level.name}</h3>
-                    <p className="text-white text-opacity-90 mb-2">{level.description}</p>
-                    <p className="text-sm text-white text-opacity-75">{level.difficulty}</p>
+                <div className="flex flex-col items-start space-y-4">
+                  <div className="p-3 bg-neutral-800 rounded-full">
+                    <Icon size={28} className="text-gray-200" />
                   </div>
-                  <motion.div
-                    className="mt-4 px-6 py-2 bg-white bg-opacity-20 rounded-full text-sm font-semibold"
-                    whileHover={{ bg: "rgba(255,255,255,0.3)" }}
-                  >
+                  <h3 className="text-lg font-semibold text-white">
+                    {level.name}
+                  </h3>
+                  <p className="text-sm text-gray-400">{level.description}</p>
+                  <p className="text-sm text-gray-500">{level.difficulty}</p>
+                  <span className="text-sm text-gray-500 underline mt-2">
                     Select Level
-                  </motion.div>
+                  </span>
                 </div>
-              </motion.div>
+              </motion.button>
             );
           })}
         </div>
 
+        {/* Footer */}
         <motion.div
-          className="text-center mt-8"
+          className="text-center mt-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 1 }}
         >
           <button
-            onClick={() => navigate('/')}
-            className="text-purple-600 hover:text-purple-800 transition-colors duration-200"
+            onClick={() => navigate("/")}
+            className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
           >
             ← Back to subjects
           </button>
