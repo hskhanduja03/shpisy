@@ -110,7 +110,7 @@ const LevelPage: React.FC = () => {
           transition={{ duration: 0.5, delay: 1 }}
         >
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
           >
             ← Back to subjects
