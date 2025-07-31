@@ -2,7 +2,12 @@ import { Question } from "../types";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+if (!GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY is not defined in environment variables.");
+}
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY); // Now it's safe
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 export const generateQuestions = async (
@@ -36,7 +41,6 @@ Return ONLY a JSON array like this:
     const response = await result.response;
     let text = response.text().trim();
 
-    // Remove Markdown code block markers if present
     text = text.replace(/```json|```/g, "");
 
     const jsonStart = text.indexOf("[");
