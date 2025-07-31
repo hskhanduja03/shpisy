@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "katex/dist/katex.min.css";
 import { QuizProvider, useQuiz } from "./context/QuizContext";
 import HomePage from "./pages/HomePage";
 import LevelPage from "./pages/LevelPage";
@@ -36,7 +37,18 @@ const AppRoutes = () => {
         }
       />
 
-      <Route path="/results" element={<ResultsPage />} />
+      <Route
+        path="/results"
+        element={
+          <ProtectedRoute
+            condition={state.level !== "" && state.subject !== ""}
+            redirectTo="/home"
+          >
+            <ResultsPage />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -11,6 +11,7 @@ const loadingMessages = [
   "Loading magic…",
   "Hang tight!",
   "Final touches…",
+  "Backend Deployed on Render -- Might take some time"
 ];
 
 const QuizPage: React.FC = () => {
