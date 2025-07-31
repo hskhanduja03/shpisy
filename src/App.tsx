@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "katex/dist/katex.min.css";
 import { QuizProvider, useQuiz } from "./context/QuizContext";
 import HomePage from "./pages/HomePage";
 import LevelPage from "./pages/LevelPage";
